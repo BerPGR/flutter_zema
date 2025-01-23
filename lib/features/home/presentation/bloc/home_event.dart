@@ -1,3 +1,3 @@
 abstract class HomeEvent {}
 
-class LoadMoreGamesHome extends HomeEvent {}
+class LoadGamesEvent extends HomeEvent {}

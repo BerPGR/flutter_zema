@@ -11,15 +11,15 @@ class RemoteGameDataSource {
     try {
       final response = await dio.post(
         endpoint,
-        options: Options(
-          headers: {
-            'Client-ID': clientId,
-            'Authorization': 'Bearer ${bearerToken}'
-          }
-        ),
+        options: Options(headers: {
+          'Client-ID': clientId,
+          'Authorization': 'Bearer ${bearerToken}'
+        }),
         data: '''
-          fields *, cover.image_id; limit 10;
-        '''
+          fields *, rating, cover.image_id, genres.name; 
+          limit 10; 
+          where total_rating > 90 & total_rating_count > 100;
+        ''',
       );
 
       if (response.statusCode == 200) {
