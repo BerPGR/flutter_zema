@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "814667416815",
+    "project_id": "zema-31525",
+    "storage_bucket": "zema-31525.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:814667416815:android:381a3b7bd1fac3fef8871a",
+        "android_client_info": {
+          "package_name": "br.com.zema.zema"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5mMTITqQwDV26GXXxHLNghiQzG0SsrR8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

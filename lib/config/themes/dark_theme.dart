@@ -9,5 +9,16 @@ ThemeData darkTheme = ThemeData(
         backgroundColor: Color(0xFF026b9c),
       ),
     ),
+    inputDecorationTheme: InputDecorationTheme(
+      floatingLabelStyle: TextStyle(color: Color(0xFF026b9c)),
+      border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            width: 1,
+          )),
+      focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(width: 1, color: Color(0xFF026b9c))),
+    ),
     scaffoldBackgroundColor: Color(0xFF101d23),
     fontFamily: 'Manrope');

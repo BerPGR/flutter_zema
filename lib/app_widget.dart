@@ -12,7 +12,7 @@ class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(providers: [
-      BlocProvider(create: (context) => HomeBloc(sl()))
+      BlocProvider(create: (context) => HomeBloc(sl(), sl(), sl()))
     ], child: MaterialApp.router(
       title: 'BLoC Clean Zema',
       debugShowCheckedModeBanner: false,

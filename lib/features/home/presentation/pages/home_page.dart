@@ -1,10 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zema/features/home/presentation/bloc/home_bloc.dart';
 import 'package:zema/features/home/presentation/bloc/home_event.dart';
 import 'package:zema/features/home/presentation/bloc/home_state.dart';
+import 'package:zema/features/home/presentation/widgets/home_games_list.dart';
+
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final TextEditingController _controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,92 +18,136 @@ class HomePage extends StatelessWidget {
     homeBloc.add(LoadGamesEvent());
 
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            spacing: 28,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Image.asset(
-                  "assets/images/zema-logo.png",
-                  fit: BoxFit.contain,
-                  height: 56,
+      body: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          if (state is HomeLoading) {
+            return Center(child: const CircularProgressIndicator());
+          }
+
+          if (state is HomeFailed) {
+            return const Center(child: Text("Erro ao buscar jogos"));
+          }
+
+          if (state is HomeDone) {
+            return SafeArea(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    spacing: 28,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Image.asset(
+                                "assets/images/zema-logo.png",
+                                fit: BoxFit.contain,
+                                height: 56,
+                              ),
+                              IconButton(
+                                  onPressed: () {
+                                    homeBloc.add(SearchGameEvent());
+                                  },
+                                  icon: Icon(
+                                    Icons.search,
+                                    size: 32,
+                                  ))
+                            ],
+                          )),
+                      const Divider(),
+                      SizedBox(
+                        height: 500,
+                        child: HomeGamesList(games: state.games),
+                      ),
+                      const Text("Top Review", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+                      for (var top in state.topReviews)
+                        ListTile(
+                          
+                                  splashColor: Colors.white30,
+                                  leading: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.network("https://images.igdb.com/igdb/image/upload/t_thumb/${top.imageId}.jpg")),
+                                  title: Text(top.name!, maxLines: 2,),
+                                  trailing: Icon(Icons.chevron_right_outlined),
+                                ),
+                    ],
+                  ),
                 ),
               ),
-              const Divider(),
-              BlocBuilder<HomeBloc, HomeState>(
-                builder: (context, state) {
-                  if (state is HomeLoading) {
-                    return const CircularProgressIndicator();
-                  }
-                
-                  if (state is HomeFailed) {
-                    return const Center(child: Text("Erro ao buscar jogos"));
-                  }
-                
-                  if (state is HomeDone) {
-                    return SizedBox(
-                      height: 600, 
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: state.games.length,
-                        itemBuilder: (context, index) {
-                          final game = state.games[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 20.0),
-                            child: SizedBox(
-                              width: 220,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      topRight: Radius.circular(10),
-                                    ),
-                                    child: Image.network(
-                                      "https://images.igdb.com/igdb/image/upload/t_1080p/${game.imageId}.jpg", height: 300, fit: BoxFit.cover,
-                                      
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Text(
-                                      game.name!,
-                                      style: const TextStyle(fontSize: 20),
-                                      textAlign: TextAlign.start,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Text(
-                                      game.storyline!,
-                                      style: TextStyle(fontWeight: FontWeight.w300, fontSize: 16),
-                                      maxLines: 5,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.start
-                                      
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }
+            );
+          }
+
+          if (state is HomeSearch) {
+            return SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Column(
+                    spacing: 28,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                homeBloc.add(LoadGamesEvent());
+                              },
+                              icon: Icon(Icons.chevron_left_outlined, size: 32,))
+                        ],
                       ),
-                    );
-                  }
-                
-                  return const Center(child: Text("Algo deu errado"));
-                },
+                      const Divider(),
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Search',
+                          prefixIcon: const Icon(Icons.search),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                width: 1,
+                              )),
+                        ),
+                        controller: _controller,
+                        focusNode: _focusNode,
+                        onSubmitted: (value) {
+                          if (value.trim().isNotEmpty) {
+                            homeBloc.add(SearchingGameEvent(query: value.trim()));
+                          }
+                        },
+                      ),
+                      if (state.searchedGames.isNotEmpty)
+                        Expanded(
+                          child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: state.searchedGames.length,
+                            itemBuilder: (context, index) {
+                              final searchedGame = state.searchedGames[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 16.0),
+                                child: ListTile(
+                                  splashColor: Colors.white30,
+                                  leading: Image.network("https://images.igdb.com/igdb/image/upload/t_thumb/${searchedGame.imageId}.jpg"),
+                                  title: Text(searchedGame.name!, maxLines: 2,),
+                                  trailing: Icon(Icons.chevron_right_outlined),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
               ),
-            ],
-          ),
-        ),
+            );
+          }
+
+          return const SizedBox.shrink();
+        },
       ),
     );
   }
