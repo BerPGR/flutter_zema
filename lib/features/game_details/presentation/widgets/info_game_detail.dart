@@ -43,7 +43,8 @@ class InfoGameDetail extends StatelessWidget {
             alignment: WrapAlignment.end,
             children: [
               for (var platform in platforms)
-                Chip(label: Text("${platform["abbreviation"]}"))
+                if (platform["abbreviation"] != null)
+                  Chip(label: Text("${platform["abbreviation"]}"))
             ],
           ),
         ),

@@ -19,7 +19,7 @@ class AppWidget extends StatelessWidget {
             lazy: false,
           ),
           BlocProvider<DetailsBloc>(
-            create: (context) => DetailsBloc(sl()),
+            create: (context) => DetailsBloc(sl(), sl()),
             lazy: false,
           )
         ],

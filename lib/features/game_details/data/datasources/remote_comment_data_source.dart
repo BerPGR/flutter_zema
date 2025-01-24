@@ -7,15 +7,16 @@ class RemoteCommentDataSource {
 
   RemoteCommentDataSource(this.dio);
 
-  Future<List<ComemntModel>> fetchComments(String id) async {
+  Future<List<ComemntModel>> fetchComments(int id) async {
     try {
-          final collection = FirebaseFirestore.instance.collection("comments");
-      final QuerySnapshot snapshot = await collection.where('game_id', isEqualTo: id).get();
-      
+      final collection = FirebaseFirestore.instance.collection("comments");
+      final QuerySnapshot snapshot =
+          await collection.where('gameId', isEqualTo: id).get();
+
       if (snapshot.size == 0) {
         return [];
       }
-      
+
       List<ComemntModel> comments = snapshot.docs.map((doc) {
         return ComemntModel.fromJson(doc.data() as Map<String, dynamic>);
       }).toList();
@@ -25,5 +26,11 @@ class RemoteCommentDataSource {
       print(e);
       return [];
     }
+  }
+
+  Future<void> addComment(Map<String, dynamic> comment) async {
+    final collection = FirebaseFirestore.instance.collection("comments");
+
+    await collection.add(comment);
   }
 }

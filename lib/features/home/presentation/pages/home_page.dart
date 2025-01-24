@@ -81,7 +81,7 @@ class HomePage extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 16.0),
                           child: ListTile(
                             onTap: () {
-                              context.go("/details", extra: top);
+                              context.push("/details", extra: top);
                             },
                             splashColor: Colors.white30,
                             leading: ClipRRect(

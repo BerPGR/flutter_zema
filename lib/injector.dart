@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:zema/features/game_details/data/datasources/remote_comment_data_source.dart';
 import 'package:zema/features/game_details/data/repositories/comment_repository_impl.dart';
 import 'package:zema/features/game_details/domain/respositories/comment_repository.dart';
+import 'package:zema/features/game_details/domain/usecases/add_comment.dart';
 import 'package:zema/features/game_details/domain/usecases/load_comments.dart';
 import 'package:zema/features/game_details/presentation/bloc/details_bloc.dart';
 import 'package:zema/features/home/data/data_source/remote_game_data_source.dart';
@@ -32,5 +33,6 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<RemoteCommentDataSource>(RemoteCommentDataSource(sl()));
   sl.registerSingleton<CommentRepository>(CommentRepositoryImpl(sl()));
   sl.registerSingleton<LoadCommentsUseCase>(LoadCommentsUseCase(sl()));
-  sl.registerFactory<DetailsBloc>(() => DetailsBloc(sl()));
+  sl.registerSingleton<AddCommentUseCase>(AddCommentUseCase(sl()));
+  sl.registerFactory<DetailsBloc>(() => DetailsBloc(sl(), sl()));
 }
