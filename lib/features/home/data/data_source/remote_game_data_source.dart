@@ -17,7 +17,7 @@ class RemoteGameDataSource {
           'Authorization': 'Bearer ${bearerToken}'
         }),
         data: '''
-          fields *, rating, cover.image_id, genres.name; 
+          fields id, name, genres.name, summary, storyline, cover.image_id, screenshots.image_id, platforms.abbreviation, total_rating;
           limit 10; 
           where total_rating > 90 & total_rating_count > 100;
         ''',
@@ -44,7 +44,7 @@ class RemoteGameDataSource {
           'Authorization': 'Bearer $bearerToken'
         }),
         data: '''
-          fields *, cover.image_id; 
+          fields id, name, genres.name, summary, storyline, cover.image_id, screenshots.image_id, platforms.abbreviation, total_rating;
           search "$query";
         ''',
       );
@@ -70,7 +70,7 @@ class RemoteGameDataSource {
           'Authorization': 'Bearer $bearerToken'
         }),
         data: '''
-          fields *, rating, cover.image_id, genres.name;
+          fields id, name, genres.name, summary, storyline, cover.image_id, screenshots.image_id, platforms.abbreviation, total_rating;
           limit 5; 
           where total_rating > 95 & total_rating_count > 500;
         ''',

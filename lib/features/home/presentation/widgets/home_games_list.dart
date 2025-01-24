@@ -37,10 +37,10 @@ class HomeGamesList extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 4.0),
-                    child: Text(game.storyline!,
+                    child: Text(game.storyline != "" ? game.storyline! : game.summary!,
                         style: TextStyle(
                             fontWeight: FontWeight.w300, fontSize: 16),
-                        maxLines: 5,
+                        maxLines: 4,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.start),
                   ),

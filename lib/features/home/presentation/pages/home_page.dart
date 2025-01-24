@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:zema/features/home/presentation/bloc/home_bloc.dart';
 import 'package:zema/features/home/presentation/bloc/home_event.dart';
 import 'package:zema/features/home/presentation/bloc/home_state.dart';
@@ -15,7 +16,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeBloc = context.read<HomeBloc>();
-    homeBloc.add(LoadGamesEvent());
+    if (homeBloc.state is! HomeDone) {
+      homeBloc.add(LoadGamesEvent());
+    }
 
     return Scaffold(
       body: BlocBuilder<HomeBloc, HomeState>(
@@ -35,7 +38,6 @@ class HomePage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
-                    spacing: 28,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
@@ -59,21 +61,41 @@ class HomePage extends StatelessWidget {
                             ],
                           )),
                       const Divider(),
+                      const SizedBox(
+                        height: 28,
+                      ),
                       SizedBox(
-                        height: 500,
+                        height: 450,
                         child: HomeGamesList(games: state.games),
                       ),
-                      const Text("Top Review", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+                      const SizedBox(
+                        height: 28,
+                      ),
+                      const Text(
+                        "Top Review",
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
                       for (var top in state.topReviews)
-                        ListTile(
-                          
-                                  splashColor: Colors.white30,
-                                  leading: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Image.network("https://images.igdb.com/igdb/image/upload/t_thumb/${top.imageId}.jpg")),
-                                  title: Text(top.name!, maxLines: 2,),
-                                  trailing: Icon(Icons.chevron_right_outlined),
-                                ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: ListTile(
+                            onTap: () {
+                              context.go("/details", extra: top);
+                            },
+                            splashColor: Colors.white30,
+                            leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                    "https://images.igdb.com/igdb/image/upload/t_thumb/${top.imageId}.jpg")),
+                            title: Text(
+                              top.name!,
+                              maxLines: 2,
+                            ),
+                            trailing: Icon(Icons.chevron_right_outlined),
+                          ),
+                        ),
+                      const SizedBox(height: 28)
                     ],
                   ),
                 ),
@@ -97,7 +119,10 @@ class HomePage extends StatelessWidget {
                               onPressed: () {
                                 homeBloc.add(LoadGamesEvent());
                               },
-                              icon: Icon(Icons.chevron_left_outlined, size: 32,))
+                              icon: Icon(
+                                Icons.chevron_left_outlined,
+                                size: 32,
+                              ))
                         ],
                       ),
                       const Divider(),
@@ -115,7 +140,8 @@ class HomePage extends StatelessWidget {
                         focusNode: _focusNode,
                         onSubmitted: (value) {
                           if (value.trim().isNotEmpty) {
-                            homeBloc.add(SearchingGameEvent(query: value.trim()));
+                            homeBloc
+                                .add(SearchingGameEvent(query: value.trim()));
                           }
                         },
                       ),
@@ -131,8 +157,15 @@ class HomePage extends StatelessWidget {
                                 padding: const EdgeInsets.only(top: 16.0),
                                 child: ListTile(
                                   splashColor: Colors.white30,
-                                  leading: Image.network("https://images.igdb.com/igdb/image/upload/t_thumb/${searchedGame.imageId}.jpg"),
-                                  title: Text(searchedGame.name!, maxLines: 2,),
+                                  leading: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.network(
+                                        "https://images.igdb.com/igdb/image/upload/t_thumb/${searchedGame.imageId}.jpg"),
+                                  ),
+                                  title: Text(
+                                    searchedGame.name!,
+                                    maxLines: 2,
+                                  ),
                                   trailing: Icon(Icons.chevron_right_outlined),
                                 ),
                               );
