@@ -86,7 +86,7 @@ class ProfilePage extends StatelessWidget {
                               ),
                               Column(
                                 children: [
-                                  Text(comments.title!, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
+                                  Text(comments.gameName!, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, overflow: TextOverflow.ellipsis),),
                                 ],
                               ),
                             ]),
