@@ -1,17 +1,17 @@
-import 'package:dio/dio.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:zema/features/game_details/data/models/comment.dart';
 
-class RemoteCommentDataSource {
+class RemoteUserCommentsDataSource {
   final Dio dio;
 
-  RemoteCommentDataSource(this.dio);
+  RemoteUserCommentsDataSource(this.dio);
 
-  Future<List<CommentModel>> fetchComments(int id) async {
+  Future<List<CommentModel>> fetchUserComments(String userId) async {
     try {
       final collection = FirebaseFirestore.instance.collection("comments");
       final QuerySnapshot snapshot =
-          await collection.where('gameId', isEqualTo: id).get();
+          await collection.where('userId', isEqualTo: userId).get();
 
       if (snapshot.size == 0) {
         return [];
@@ -26,11 +26,5 @@ class RemoteCommentDataSource {
       print(e);
       return [];
     }
-  }
-
-  Future<void> addComment(Map<String, dynamic> comment) async {
-    final collection = FirebaseFirestore.instance.collection("comments");
-
-    await collection.add(comment);
   }
 }

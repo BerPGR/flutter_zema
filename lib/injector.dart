@@ -13,6 +13,11 @@ import 'package:zema/features/home/domain/use_cases/get_games.dart';
 import 'package:zema/features/home/domain/use_cases/search_games.dart';
 import 'package:zema/features/home/domain/use_cases/top_reviews.dart';
 import 'package:zema/features/home/presentation/bloc/home_bloc.dart';
+import 'package:zema/features/profile/data/data_source/remote_user_comments_ds.dart';
+import 'package:zema/features/profile/data/repositories/user_comments_repository_impl.dart';
+import 'package:zema/features/profile/domain/repositories/user_comments_repository.dart';
+import 'package:zema/features/profile/domain/use_cases/get_user_comments.dart';
+import 'package:zema/features/profile/presentation/bloc/profile_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -35,4 +40,10 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<LoadCommentsUseCase>(LoadCommentsUseCase(sl()));
   sl.registerSingleton<AddCommentUseCase>(AddCommentUseCase(sl()));
   sl.registerFactory<DetailsBloc>(() => DetailsBloc(sl(), sl()));
+
+  //Profile Injection
+  sl.registerSingleton<RemoteUserCommentsDataSource>(RemoteUserCommentsDataSource(sl()));
+  sl.registerSingleton<UserCommentsRepository>(UserCommentsRepositoryImpl(sl()));
+  sl.registerSingleton<GetUserCommentsUseCase>(GetUserCommentsUseCase(sl()));
+  sl.registerFactory<ProfileBloc>(() => ProfileBloc(sl()));
 }

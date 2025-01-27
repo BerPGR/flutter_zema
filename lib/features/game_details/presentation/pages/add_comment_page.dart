@@ -171,6 +171,7 @@ class _AddCommentPageState extends State<AddCommentPage> {
 
                             Map<String, dynamic> data = {
                               "gameId": widget.gameId,
+                              "userId": authService.currentUser!.uid,
                               "username": authService.currentUser!.displayName,
                               "title": _titleController.text,
                               "content": _contentController.text,

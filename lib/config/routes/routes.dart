@@ -8,6 +8,7 @@ import 'package:zema/features/home/domain/entities/game.dart';
 import 'package:zema/features/home/presentation/pages/home_page.dart';
 import 'package:zema/features/login/presentation/pages/login_page.dart';
 import 'package:zema/features/login/presentation/pages/onboarding.dart';
+import 'package:zema/features/profile/presentation/pages/profiile_page.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/',
@@ -36,6 +37,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) => HomePage(),
+    ),
+    GoRoute(
+      path: '/profile',
+      builder: (context, state) => ProfilePage(),
     ),
     GoRoute(
       path: '/details',

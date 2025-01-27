@@ -11,7 +11,7 @@ class CommentRepositoryImpl implements CommentRepository {
   @override
   Future<List<CommentEntity>> fetchComments(int id) async {
     try {
-      final List<ComemntModel> comments =
+      final List<CommentModel> comments =
           await _remoteCommentDataSource.fetchComments(id);
       return comments
           .map((comment) => CommentEntity.fromModel(comment))

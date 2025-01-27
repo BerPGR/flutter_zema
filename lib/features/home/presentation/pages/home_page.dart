@@ -51,14 +51,26 @@ class HomePage extends StatelessWidget {
                                 fit: BoxFit.contain,
                                 height: 56,
                               ),
-                              IconButton(
-                                  onPressed: () {
-                                    homeBloc.add(SearchGameEvent());
-                                  },
-                                  icon: Icon(
-                                    Icons.search,
-                                    size: 32,
-                                  ))
+                              Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        homeBloc.add(SearchGameEvent());
+                                      },
+                                      icon: Icon(
+                                        Icons.search,
+                                        size: 32,
+                                      )),
+                                  IconButton(
+                                      onPressed: () {
+                                        context.push("/profile");
+                                      },
+                                      icon: Icon(
+                                        Icons.person,
+                                        size: 32,
+                                      )),
+                                ],
+                              )
                             ],
                           )),
                       const Divider(),
@@ -97,9 +109,11 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                       const SizedBox(height: 28),
-                      ElevatedButton(onPressed: () {
-                        FirebaseAuth.instance.signOut();
-                      }, child: Text("Log out"))
+                      ElevatedButton(
+                          onPressed: () {
+                            FirebaseAuth.instance.signOut();
+                          },
+                          child: Text("Log out"))
                     ],
                   ),
                 ),
@@ -161,7 +175,8 @@ class HomePage extends StatelessWidget {
                                 padding: const EdgeInsets.only(top: 16.0),
                                 child: ListTile(
                                   onTap: () {
-                                    context.push("/details", extra: searchedGame);
+                                    context.push("/details",
+                                        extra: searchedGame);
                                   },
                                   splashColor: Colors.white30,
                                   leading: ClipRRect(

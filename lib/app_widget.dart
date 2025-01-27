@@ -5,6 +5,7 @@ import 'package:zema/config/themes/dark_theme.dart';
 import 'package:zema/config/themes/light_theme.dart';
 import 'package:zema/features/game_details/presentation/bloc/details_bloc.dart';
 import 'package:zema/features/home/presentation/bloc/home_bloc.dart';
+import 'package:zema/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:zema/injector.dart';
 
 class AppWidget extends StatelessWidget {
@@ -21,7 +22,11 @@ class AppWidget extends StatelessWidget {
           BlocProvider<DetailsBloc>(
             create: (context) => DetailsBloc(sl(), sl()),
             lazy: false,
-          )
+          ),
+          BlocProvider<ProfileBloc>(
+            create: (context) => ProfileBloc(sl()),
+            lazy: false,
+          ),
         ],
         child: MaterialApp.router(
           title: 'BLoC Clean Zema',
