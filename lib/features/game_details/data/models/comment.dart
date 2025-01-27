@@ -1,5 +1,7 @@
 class CommentModel {
   int? gameId;
+  String? gameName;
+  String? gameCoverId;
   String? userId;
   String? username;
   double? stars;
@@ -8,6 +10,8 @@ class CommentModel {
 
   CommentModel({
     required this.gameId,
+    required this.gameName,
+    required this.gameCoverId,
     required this.userId,
     required this.username,
     required this.stars,
@@ -18,10 +22,12 @@ class CommentModel {
   factory CommentModel.fromJson(Map<String, dynamic> json) {
     return CommentModel(
         gameId: json["gameId"] ?? 0,
-        userId: json["userId"] ?? "", 
+        userId: json["userId"] ?? "",
         username: json["username"] ?? "",
         stars: json["stars"] ?? 0.0,
         title: json["title"] ?? "",
-        content: json["content"] ?? "");
+        content: json["content"] ?? "",
+        gameName: json['gameName'] ?? "",
+        gameCoverId: json["gameCoverId"]);
   }
 }

@@ -17,7 +17,10 @@ class ProfilePage extends StatelessWidget {
     profileBloc.add(ProfileLoadCommentsEvent(authService.currentUser!.uid));
 
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text("Profile"),),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Profile"),
+      ),
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           if (state is ProfileLoading) {
@@ -40,32 +43,55 @@ class ProfilePage extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 36,
-                          child: Text(
-                              authService.currentUser!.displayName!.split("")[0]),
+                          child: Text(authService.currentUser!.displayName!
+                              .split("")[0]),
                         ),
                         Column(
                           spacing: 4,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(authService.currentUser!.displayName!, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),),
-                            Text("Joined in ${authService.currentUser!.metadata.creationTime!.year}")
+                            Text(
+                              authService.currentUser!.displayName!,
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.w500),
+                            ),
+                            Text(
+                                "Joined in ${authService.currentUser!.metadata.creationTime!.year}")
                           ],
                         )
                       ],
                     ),
-                    Text("Your reviews", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
+                    Text("Your reviews",
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w700)),
                     if (userComments.isEmpty)
                       Center(
                         child: Text("You have no comments/reviews"),
                       ),
                     for (var comments in userComments)
-                      Card(
-                        color: Colors.red,
+                      SizedBox(
                         child: Column(
+                          spacing: 12,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [Text(comments.title!)],
-                            )
+                            Row(spacing: 12, children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                  "https://images.igdb.com/igdb/image/upload/t_1080p/p3svrq6ewzxnn7p1a3v9.jpg",
+                                  height: 56,
+                                  width: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Column(
+                                children: [
+                                  Text(comments.title!, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
+                                ],
+                              ),
+                            ]),
+                            Text(comments.content!, style: TextStyle(fontSize: 16, overflow: TextOverflow.clip), maxLines: 3),
+                            const Divider()
                           ],
                         ),
                       ),

@@ -2,6 +2,8 @@ import 'package:zema/features/game_details/data/models/comment.dart';
 
 class CommentEntity {
   final int? gameId;
+  final String? gameName;
+  final String? gameCoverId;
   final String? userId;
   final String? username;
   final double? stars;
@@ -9,6 +11,8 @@ class CommentEntity {
   final String? content;
 
   const CommentEntity({
+    required this.gameName,
+    required this.gameCoverId, 
     required this.gameId,
     required this.userId,
     required this.username,
@@ -19,6 +23,8 @@ class CommentEntity {
 
   factory CommentEntity.fromModel(CommentModel cModel) {
     return CommentEntity(
+      gameName: cModel.gameName,
+      gameCoverId: cModel.gameCoverId,
       gameId: cModel.gameId,
       userId: cModel.userId,
       username: cModel.username,

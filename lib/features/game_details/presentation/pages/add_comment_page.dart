@@ -5,10 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:zema/core/service/firebase.dart';
 import 'package:zema/features/game_details/presentation/bloc/details_bloc.dart';
 import 'package:zema/features/game_details/presentation/bloc/details_event.dart';
+import 'package:zema/features/home/domain/entities/game.dart';
 
 class AddCommentPage extends StatefulWidget {
-  final int gameId;
-  const AddCommentPage({super.key, required this.gameId});
+  final GameEntity game;
+  const AddCommentPage({super.key, required this.game});
 
   @override
   State<AddCommentPage> createState() => _AddCommentPageState();
@@ -170,7 +171,9 @@ class _AddCommentPageState extends State<AddCommentPage> {
                             }
 
                             Map<String, dynamic> data = {
-                              "gameId": widget.gameId,
+                              "gameId": widget.game.id,
+                              "gameName": widget.game.name,
+                              "gameCoverId": widget.game.imageId,
                               "userId": authService.currentUser!.uid,
                               "username": authService.currentUser!.displayName,
                               "title": _titleController.text,

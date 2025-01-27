@@ -109,11 +109,19 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                       const SizedBox(height: 28),
-                      ElevatedButton(
-                          onPressed: () {
-                            FirebaseAuth.instance.signOut();
-                          },
-                          child: Text("Log out"))
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )
+                          ),
+                            onPressed: () {
+                              FirebaseAuth.instance.signOut();
+                            },
+                            child: Text("Log out", style: TextStyle(fontSize: 16),)),
+                      )
                     ],
                   ),
                 ),

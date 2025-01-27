@@ -56,7 +56,8 @@ class RemoteGameDataSource {
         return [];
       }
     } catch (e) {
-      print(e);
+      print(e.toString());
+
       return [];
     }
   }

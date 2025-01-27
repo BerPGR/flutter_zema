@@ -152,7 +152,7 @@ class GameDetailsPage extends StatelessWidget {
                                                           10))),
                                           onPressed: () {
                                             context.push("/addcomment",
-                                                extra: game.id);
+                                                extra: game);
                                           },
                                           child: Text(
                                             "Add Comment",

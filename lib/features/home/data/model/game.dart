@@ -22,18 +22,19 @@ class GameModel {
 
   factory GameModel.fromJson(Map<String, dynamic> json) {
     return GameModel(
-      id: json['id'] ?? 0,
-      name: json['name'] ?? "",
-      storyline: json['storyline'] ?? "",
-      summary: json["summary"] ?? "",
-      imageId: json['cover'] != null
-          ? json['cover']['image_id']
-          : "dfgkfivjrhcksyymh9vw", // This is a default value
-      genres: json["genres"] ?? [],
-      platforms: json["platforms"] ?? [],
-      screenshot: json["screenshots"][0]["image_id"] ??
-          "dfgkfivjrhcksyymh9vw", // This is a default value
-      rating: json["total_rating"] ?? 0.0
-    );
+        id: json['id'] ?? 0,
+        name: json['name'] ?? "",
+        storyline: json['storyline'] ?? "",
+        summary: json["summary"] ?? "",
+        imageId: json['cover'] != null
+            ? json['cover']['image_id']
+            : "dfgkfivjrhcksyymh9vw", // This is a default value
+        genres: json["genres"] ?? [],
+        platforms: json["platforms"] ?? [],
+        screenshot:
+            (json["screenshots"] != null && json["screenshots"].isNotEmpty)
+                ? json["screenshots"][0]["image_id"]
+                : "dfgkfivjrhcksyymh9vw", // This is a default value
+        rating: json["total_rating"] ?? 0.0);
   }
 }

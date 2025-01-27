@@ -52,8 +52,8 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/addcomment',
       builder: (context, state) {
-        final id = state.extra as int;
-        return AddCommentPage(gameId: id);
+        final game = state.extra as GameEntity;
+        return AddCommentPage(game: game);
       },
     ),
     GoRoute(

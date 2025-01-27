@@ -34,6 +34,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         final searchedGames = await _searchGamesUseCase(event.query);
         emit(HomeSearch(searchedGames));
       } catch (e) {
+        print("O erro foi aqui");
         print(e);
       }
     });
