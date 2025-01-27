@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zema/core/service/firebase.dart';
 
 class LoginPage extends StatefulWidget {
@@ -107,15 +108,17 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    final prefs = await SharedPreferences.getInstance();
                     try {
                       if (_formKey.currentState!.validate() && isRegistering) {
-                        firebaseService.registerWithEmailAndPassword(
+                        await prefs.setBool("first_time_login", true);
+                        await firebaseService.registerWithEmailAndPassword(
                             _emailController.text, _passwordController.text);
                         context.go("/onboarding");
                       } else if (_formKey.currentState!.validate() &&
                           !isRegistering) {
-                        firebaseService.signInWithEmailAndPassword(
+                        await firebaseService.signInWithEmailAndPassword(
                             _emailController.text, _passwordController.text);
                         context.go("/");
                       }

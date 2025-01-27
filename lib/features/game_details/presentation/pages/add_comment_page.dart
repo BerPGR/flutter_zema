@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:go_router/go_router.dart';
+import 'package:zema/core/service/firebase.dart';
 import 'package:zema/features/game_details/presentation/bloc/details_bloc.dart';
 import 'package:zema/features/game_details/presentation/bloc/details_event.dart';
 
@@ -16,6 +17,7 @@ class AddCommentPage extends StatefulWidget {
 class _AddCommentPageState extends State<AddCommentPage> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
+  final authService = AuthService();
   double userRating = 0;
 
   final _formkey = GlobalKey<FormState>();
@@ -169,7 +171,7 @@ class _AddCommentPageState extends State<AddCommentPage> {
 
                             Map<String, dynamic> data = {
                               "gameId": widget.gameId,
-                              "username": "User123",
+                              "username": authService.currentUser!.displayName,
                               "title": _titleController.text,
                               "content": _contentController.text,
                               "stars": userRating,

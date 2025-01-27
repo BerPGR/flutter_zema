@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zema/core/service/firebase.dart';
 import 'package:zema/features/game_details/presentation/pages/add_comment_page.dart';
 import 'package:zema/features/game_details/presentation/pages/game_details_page.dart';
@@ -10,28 +11,25 @@ import 'package:zema/features/login/presentation/pages/onboarding.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/',
-  redirect: (context, state) {
+  redirect: (context, state) async {
+    final prefs = await SharedPreferences.getInstance();
     final firebaseService = AuthService();
     final user = firebaseService.currentUser;
     final isLoggedIn = user != null;
+    final firstTimeLogin = prefs.getBool("first_time_login");
     final isGoingToLogin = state.uri.toString() == '/login';
     final isGoingToOnboarding = state.uri.toString() == '/onboarding';
 
-    // Verifica se o usuário precisa passar pelo onboarding
-    final needsOnboarding = isLoggedIn && user.metadata.creationTime!.second < user.metadata.lastSignInTime!.second;
+    final needsOnboarding = isLoggedIn && (firstTimeLogin != null && firstTimeLogin);
 
     if (!isLoggedIn && !isGoingToLogin) {
-      // Redireciona para a tela de login se não estiver autenticado
       return '/login';
     } else if (isLoggedIn && !needsOnboarding && isGoingToOnboarding) {
-      // Evita o onboarding para usuários já registrados
       return '/';
-    } else if (needsOnboarding && !isGoingToOnboarding) {
-      // Redireciona para a página de onboarding se for um novo usuário
+    } else if (needsOnboarding && isGoingToOnboarding) {
       return '/onboarding';
     }
 
-    // Mantém a rota atual
     return null;
   },
   routes: [

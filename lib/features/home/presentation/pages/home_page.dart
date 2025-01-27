@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -95,7 +96,10 @@ class HomePage extends StatelessWidget {
                             trailing: Icon(Icons.chevron_right_outlined),
                           ),
                         ),
-                      const SizedBox(height: 28)
+                      const SizedBox(height: 28),
+                      ElevatedButton(onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                      }, child: Text("Log out"))
                     ],
                   ),
                 ),
@@ -156,6 +160,9 @@ class HomePage extends StatelessWidget {
                               return Padding(
                                 padding: const EdgeInsets.only(top: 16.0),
                                 child: ListTile(
+                                  onTap: () {
+                                    context.push("/details", extra: searchedGame);
+                                  },
                                   splashColor: Colors.white30,
                                   leading: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
