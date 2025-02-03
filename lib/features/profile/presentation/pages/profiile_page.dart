@@ -78,7 +78,7 @@ class ProfilePage extends StatelessWidget {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.network(
-                                  "https://images.igdb.com/igdb/image/upload/t_1080p/p3svrq6ewzxnn7p1a3v9.jpg",
+                                  "https://images.igdb.com/igdb/image/upload/t_1080p/${comments.gameCoverId}.jpg",
                                   height: 56,
                                   width: 100,
                                   fit: BoxFit.cover,
